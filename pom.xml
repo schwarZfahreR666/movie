@@ -17,7 +17,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <mysql.version>8.0.20</mysql.version>
+        <mysql.version>8.0.23</mysql.version>
         <jbcc.version>3.0.0.TD2</jbcc.version>
     </properties>
     <dependencies>
@@ -108,13 +108,44 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <finalName>Movie</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--这里写上main方法所在类的路径-->
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <mainClass>com.f.movie.MovieApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main</directory><!--所在的目录-->
+                <includes><!--包括目录下的.properties,.xml文件都会扫描到-->
+<!--                    <include>**/*.properties</include>-->
+                    <include>**/*.pfx</include>
+                    <include>**/*.yaml</include>
+<!--                    <include>**/*.xml</include>-->
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
 
     </build>
 

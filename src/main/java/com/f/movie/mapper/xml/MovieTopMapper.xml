@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f.movie.mapper.MovieTopMapper">
+    <select id="getById" parameterType="string" resultType="com.f.movie.entity.MovieTop">
+        select user_id, top1, top2, top3, top4, top5, top6, top7, top8, top9, top10
+        from movie_top_table where user_id=#{id};
+    </select>
+
+    <insert id="insertMovieTop" parameterType="com.f.movie.entity.MovieTop">
+        insert into movie_top_table (user_id, top1, top2, top3, top4, top5, top6, top7, top8, top9, top10)
+        select #{user_id},#{top1},#{top2},#{top3},#{top4},#{top5},#{top6},#{top7},#{top8},#{top9},#{top10} from DUAL
+        where not exists (select user_id from movie_top_table where user_id = #{user_id});
+    </insert>
+</mapper>

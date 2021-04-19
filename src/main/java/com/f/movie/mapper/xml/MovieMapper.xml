@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f.movie.mapper.MovieMapper">
+    <select id="getById" parameterType="string" resultType="com.f.movie.entity.Movie" resultMap="MovieMap">
+        SELECT movie_id,name,english_name,directors,writer,actors,date,style1,style2,style3,country,dataID,language,duration,introduction,rate,pic_url,url
+        from movie_table where movie_id=#{id};
+    </select>
+    <resultMap id="MovieMap" type="com.f.movie.entity.Movie">
+        <result property="id" column="movie_id"/>
+    </resultMap>
+
+    <select id="getMovies" parameterType="int" resultType="com.f.movie.entity.Movie" resultMap="MovieMap">
+        SELECT movie_id,name,english_name,directors,writer,actors,date,style1,style2,style3,country,dataID,language,duration,introduction,rate,pic_url,url
+        from movie_table limit #{start},#{count};
+    </select>
+</mapper>
