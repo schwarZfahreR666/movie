@@ -51,7 +51,7 @@ public class CommentService {
             return comment;
         } else {
             baseService.getLog().info("\n===> add trans fail.");
-            return null;
+            return new Comment("400");
         }
 
 //        Tools.printResult(result);

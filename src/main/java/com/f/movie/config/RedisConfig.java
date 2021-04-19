@@ -22,6 +22,7 @@ import java.time.Duration;
 public class RedisConfig {
     private Duration timeToLive = Duration.ofMinutes(30);
 
+
     /**
      * 获取配置文件中配置的过期时间
      * @param timeToLive
@@ -44,8 +45,9 @@ public class RedisConfig {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(timeToLive)  //过期时间
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer)) //key的序列化方式
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer))  //value的序列化方式
-                .disableCachingNullValues();
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));  //value的序列化方式
+
+
 
         RedisCacheManager cacheManager = RedisCacheManager.builder(factory)
                 .cacheDefaults(config)

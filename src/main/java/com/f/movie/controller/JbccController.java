@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 public class JbccController {
 
@@ -23,7 +25,7 @@ public class JbccController {
     public State addUser(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nickname, @RequestParam String email, @RequestParam String phone, @RequestParam String hobbies){
         User user = new User(id,username,password,nickname,email,phone,hobbies);
         User result = userService.addUser(user);
-        if(result == null){
+        if(result==null){
             return new State(400,"信息插入失败");
         }else{
             return new State(200,"信息插入成功");
