@@ -140,7 +140,7 @@
                 <includes><!--包括目录下的.properties,.xml文件都会扫描到-->
 <!--                    <include>**/*.properties</include>-->
                     <include>**/*.pfx</include>
-                    <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
                     <include>**/*.xml</include>
                 </includes>
                 <filtering>false</filtering>

@@ -66,7 +66,7 @@ CREATE TABLE `movie_vector_table`  (
 # 通过doubanMovies.csv导入
 
 -- ----------------------------
--- Table structure for movie_vector_table
+-- Table structure for movie_top_table
 -- ----------------------------
 DROP TABLE IF EXISTS `movie_top_table`;
 CREATE TABLE `movie_top_table`  (
@@ -92,7 +92,7 @@ CREATE TABLE `movie_top_table`  (
 
 
 -- ----------------------------
--- Table structure for movie_vector_table
+-- Table structure for map_table
 -- ----------------------------
 DROP TABLE IF EXISTS `map_table`;
 CREATE TABLE `map_table`  (
@@ -106,3 +106,18 @@ CREATE TABLE `map_table`  (
 -- Records of movie_vector_table
 -- ----------------------------
 
+
+
+-- ----------------------------
+-- Table structure for user_table
+-- ----------------------------
+DROP TABLE IF EXISTS `user_table`;
+CREATE TABLE `user_table`  (
+                              `user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
+                              `user_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
+                              PRIMARY KEY (`user_id`)
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户id名字映射' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of movie_vector_table
+-- ----------------------------

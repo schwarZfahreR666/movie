@@ -25,9 +25,12 @@ public class JbccController {
     public State addUser(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nickname, @RequestParam String email, @RequestParam String phone, @RequestParam String hobbies){
         User user = new User(id,username,password,nickname,email,phone,hobbies);
         User result = userService.addUser(user);
+        User result2 = userService.insertUser(user);
         if(result==null){
             return new State(400,"信息插入失败");
-        }else{
+        }else if(result2==null){
+            return new State(400,"已存在该用户id，更新数据请忽略此错误");
+        } else{
             return new State(200,"信息插入成功");
         }
     }

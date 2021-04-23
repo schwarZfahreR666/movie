@@ -1,9 +1,7 @@
 package com.f.movie.controller;
 
-import com.f.movie.entity.IdMap;
-import com.f.movie.entity.Movie;
-import com.f.movie.entity.MovieTop;
-import com.f.movie.entity.State;
+import com.f.movie.entity.*;
+import com.f.movie.mapper.MovieVectorMapper;
 import com.f.movie.service.CommentService;
 import com.f.movie.service.MovieService;
 import com.f.movie.service.UserService;
@@ -23,6 +21,7 @@ public class SQLController {
     MovieService movieService;
     @Autowired
     CommentService commentService;
+
 
     @GetMapping("/getMapByUser")
     public List<IdMap> getMapByUser(@RequestParam String userId){
@@ -101,4 +100,25 @@ public class SQLController {
         }
         return result;
     }
+
+    @GetMapping("/getVector")
+    public MovieVector getVector(@RequestParam String movieId){
+        MovieVector result = movieService.getMovieVector(movieId);
+        if(result == null){
+            return new MovieVector("400");
+        }
+        return result;
+    }
+
+    @GetMapping("/getUsername")
+    public User getUsername(@RequestParam String username){
+        User result = userService.getUser(username);
+        if(result == null){
+            return new User("400");
+        }else{
+            return result;
+        }
+    }
+
+
 }

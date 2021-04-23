@@ -1,6 +1,8 @@
 package com.f.movie;
 
 import com.f.movie.entity.Movie;
+import com.f.movie.entity.MovieVector;
+import com.f.movie.entity.User;
 import com.f.movie.service.BaseService;
 import com.f.movie.service.CommentService;
 import com.f.movie.service.MovieService;
@@ -66,6 +68,16 @@ class MovieApplicationTests {
     void getPath(){
         String Path = getClass().getClassLoader().getResource("0x043086bb88a993387dcdebea6da18e98.pfx").getPath();
         System.out.println(Path);
+    }
+    @Test
+    void getVector(){
+        MovieVector movieVector = movieService.getMovieVector("10");
+        System.out.println(movieVector);
+    }
+    @Test
+    void testUser(){
+        userService.insertUser(new User("user321","zr"));
+        System.out.println(userService.getUser("zr"));
     }
 
 }

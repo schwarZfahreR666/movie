@@ -11,6 +11,7 @@ import com.f.movie.entity.MovieTop;
 import com.f.movie.entity.User;
 import com.f.movie.mapper.MapMapper;
 import com.f.movie.mapper.MovieTopMapper;
+import com.f.movie.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
@@ -31,6 +32,9 @@ public class UserService {
     MapMapper mapMapper;
     @Autowired
     MovieTopMapper movieTopMapper;
+
+    @Autowired
+    UserMapper userMapper;
     private Connection connection;
     private Logger log;
 
@@ -167,5 +171,18 @@ public class UserService {
         }else{
             return null;
         }
+    }
+
+    public User insertUser(User user){
+        int state = userMapper.insertUser(user);
+        if(state == 1) {
+            return user;
+        }else{
+            return null;
+        }
+    }
+
+    public User getUser(String username){
+        return userMapper.getUser(username);
     }
 }
