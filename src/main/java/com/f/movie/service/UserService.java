@@ -166,7 +166,8 @@ public class UserService {
         movieMap.setTop9(top.get(8));
         movieMap.setTop10(top.get(9));
         int state = movieTopMapper.insertMovieTop(movieMap);
-        if(state == 1) {
+        System.out.println(state);
+        if(state >= 1) {
             return movieMap;
         }else{
             return null;

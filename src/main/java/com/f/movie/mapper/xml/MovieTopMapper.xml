@@ -10,7 +10,19 @@
 
     <insert id="insertMovieTop" parameterType="com.f.movie.entity.MovieTop">
         insert into movie_top_table (user_id, top1, top2, top3, top4, top5, top6, top7, top8, top9, top10)
-        select #{user_id},#{top1},#{top2},#{top3},#{top4},#{top5},#{top6},#{top7},#{top8},#{top9},#{top10} from DUAL
-        where not exists (select user_id from movie_top_table where user_id = #{user_id});
+        values
+        (#{user_id},#{top1},#{top2},#{top3},#{top4},#{top5},#{top6},#{top7},#{top8},#{top9},#{top10})
+        ON DUPLICATE KEY UPDATE
+        user_id = values(user_id),
+        top1 = values(top1),
+        top2 = values(top2),
+        top3 = values(top3),
+        top4 = values(top4),
+        top5 = values(top5),
+        top6 = values(top6),
+        top7 = values(top7),
+        top8 = values(top8),
+        top9 = values(top9),
+        top10 = values(top10);
     </insert>
 </mapper>
