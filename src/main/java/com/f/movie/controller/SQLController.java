@@ -6,9 +6,7 @@ import com.f.movie.service.CommentService;
 import com.f.movie.service.MovieService;
 import com.f.movie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +115,28 @@ public class SQLController {
             return new User("400");
         }else{
             return result;
+        }
+    }
+
+    @PostMapping("/insertMovieTop")
+    public State insertMovieTop(@RequestBody ParamList params){
+        String userId = params.getUserId();
+        List<String> tops = new ArrayList<String>();
+        tops.add(0, params.getTop1());
+        tops.add(1, params.getTop2());
+        tops.add(2, params.getTop3());
+        tops.add(3, params.getTop4());
+        tops.add(4, params.getTop5());
+        tops.add(5, params.getTop6());
+        tops.add(6, params.getTop7());
+        tops.add(7, params.getTop8());
+        tops.add(8, params.getTop9());
+        tops.add(9, params.getTop10());
+        MovieTop result = userService.insertMovieTop(userId,tops);
+        if(result == null){
+            return new State(400,"插入信息失败");
+        }else{
+            return new State(200,"插入信息成功");
         }
     }
 
