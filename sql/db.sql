@@ -70,7 +70,7 @@ CREATE TABLE `movie_vector_table`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `movie_top_table`;
 CREATE TABLE `movie_top_table`  (
-                                       `user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电影id',
+                                       `user_id` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电影id',
                                        `top1` varchar(20) NULL default NULL COMMENT 'top1',
                                        `top2` varchar(20) NULL default NULL COMMENT 'top2',
                                        `top3` varchar(20) NULL default NULL COMMENT 'top3',
@@ -96,9 +96,9 @@ CREATE TABLE `movie_top_table`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `map_table`;
 CREATE TABLE `map_table`  (
-                                       `user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
+                                       `user_id` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
                                        `movie_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '电影id',
-                                       `comment_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论id',
+                                       `comment_id` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论id',
                                        PRIMARY KEY (`user_id`,`movie_id`,`comment_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户电影评论映射表' ROW_FORMAT = DYNAMIC;
 
@@ -113,7 +113,7 @@ CREATE TABLE `map_table`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `user_table`;
 CREATE TABLE `user_table`  (
-                              `user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
+                              `user_id` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
                               `user_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
                               PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户id名字映射' ROW_FORMAT = DYNAMIC;
