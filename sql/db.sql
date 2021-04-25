@@ -115,7 +115,7 @@ DROP TABLE IF EXISTS `user_table`;
 CREATE TABLE `user_table`  (
                               `user_id` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
                               `user_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-                              PRIMARY KEY (`user_id`)
+                              PRIMARY KEY (`user_name`)
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户id名字映射' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
