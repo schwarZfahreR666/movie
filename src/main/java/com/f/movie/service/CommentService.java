@@ -41,7 +41,7 @@ public class CommentService {
     @CachePut(cacheNames="comment",key="#comment.commentId")
     public Comment addComment(Comment comment){
         //# 构建出一笔交易信息
-        Trans trans = trans(comment.getCommentId(),comment.getMovieId(),comment.getUserId(),comment.getContent());
+        Trans trans = trans(comment.getCommentId(),comment.getMovieId(),comment.getUserId(),comment.getContent(),comment.getTime());
         //# 发起一笔交易到云区块链服务中
         Result<TransHead> result = baseService.getConnection().addTrans(trans);
 
@@ -59,13 +59,14 @@ public class CommentService {
     }
 
 
-    public Trans trans(String commentId,String movieId,String userId,String content) {
+    public Trans trans(String commentId,String movieId,String userId,String content,String time) {
         Trans trans = new Trans();
         trans.setKey(commentId);//# key是当前交易的维度
         Map<String, Object> data = new HashMap<>();
         data.put("movieId", movieId);
         data.put("userId", userId);
         data.put("content", content);
+        data.put("time", time);
 
         trans.setData(JSON.toJSONString(data));
         trans.setType("Test");
@@ -92,11 +93,13 @@ public class CommentService {
             String movieId = jsonObject.get("movieId").toString();
             String userId = jsonObject.get("userId").toString();
             String content = jsonObject.get("content").toString();
+            String time = jsonObject.get("time").toString();
 
             comment.setCommentId(commentId);
             comment.setMovieId(movieId);
             comment.setUserId(userId);
             comment.setContent(content);
+            comment.setTime(time);
 
         } catch (Exception e) {
             e.printStackTrace();
