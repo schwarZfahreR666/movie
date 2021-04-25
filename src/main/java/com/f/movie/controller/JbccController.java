@@ -49,8 +49,8 @@ public class JbccController {
 
 
     @GetMapping("/addComment")
-    public State addComment(@RequestParam String commentId, @RequestParam String movieId, @RequestParam String userId, @RequestParam String content){
-        Comment comment = new Comment(commentId,movieId,userId,content);
+    public State addComment(@RequestParam String commentId, @RequestParam String movieId, @RequestParam String userId, @RequestParam String content,@RequestParam String time){
+        Comment comment = new Comment(commentId,movieId,userId,content,time);
         Comment result = commentService.addComment(comment);
         if(result == null){
             return new State(400,"信息插入失败");
