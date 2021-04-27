@@ -79,5 +79,9 @@ class MovieApplicationTests {
         userService.insertUser(new User("user321","zr"));
         System.out.println(userService.getUser("zr"));
     }
+    @Test
+    void num(){
+        System.out.println(movieService.getMovieNum());
+    }
 
 }

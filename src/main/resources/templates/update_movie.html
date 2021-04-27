@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>修改电影 - 后台管理系统</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<meta name="keywords" content="后台管理系统">
+<meta name="description" content="">
+<link href="css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link href="css/materialdesignicons.min.css" rel="stylesheet" th:href="@{/css/materialdesignicons.min.css}">
+<!--标签插件-->
+<link rel="stylesheet" href="js/jquery-tags-input/jquery.tagsinput.min.css" th:href="@{/js/jquery-tags-input/jquery.tagsinput.min.css}" />
+<link rel="stylesheet" href="css/style.min.css" th:href="@{/css/style.min.css}">
+</head>
+  
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--左侧导航-->
+    <aside class="lyear-layout-sidebar">
+       
+      <!-- logo -->
+      <div id="logo" class="sidebar-header">
+        <img src="images/logo-sidebar.png" th:src="@{/images/logo-sidebar.png}" title="LightYear" alt="LightYear" /></a>
+      </div>
+      <div class="lyear-layout-sidebar-scroll">
+        
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <a href="movies.html" th:href="@{/admin/movielist/1}"><i class="mdi mdi-format-align-justify"></i> 电影列表</a> </li>
+          </ul>
+        </nav>
+      </div>
+      
+    </aside>
+    <!--End 左侧导航-->
+    
+    <!--头部信息-->
+    <header class="lyear-layout-header">
+      
+      <nav class="navbar navbar-default">
+        <div class="topbar">
+          
+          <div class="topbar-left">
+            <div class="lyear-aside-toggler">
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+            </div>
+            <span class="navbar-page-title"> 修改电影 </span>
+          </div>
+
+          
+        </div>
+      </nav>
+      
+    </header>
+    <!--End 头部信息-->
+    
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      
+      <div class="container-fluid">
+        
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                
+                <form action="#!"  th:action="@{'/admin/updatemovie?page=1'}" method="post" class="row" id="myform">
+                  <div class="form-group col-md-12">
+                    <label for="type">电影id</label>
+                    <input type="text" class="form-control" id="movieId" name="movieId" value="" th:value="${movie.id}" placeholder="请输入电影id" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="title">电影名</label>
+                    <input type="text" class="form-control" id="name" name="name" value="" th:value="${movie.name}" placeholder="请输入电影名" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">英文名</label>
+                    <input type="text" class="form-control" id="english_name" name="english_name" value="" th:value="${movie.english_name}" placeholder="英文名" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">导演</label>
+                    <input type="text" class="form-control" id="directors" name="directors" value="" th:value="${movie.directors}" placeholder="导演" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">编剧</label>
+                    <input type="text" class="form-control" id="writer" name="writer" value="" th:value="${movie.writer}" placeholder="编剧" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">演员</label>
+                    <input type="text" class="form-control" id="actors" name="actors" value="" th:value="${movie.actors}" placeholder="演员" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">日期</label>
+                    <input type="text" class="form-control" id="date" name="date" value="" th:value="${movie.date}" placeholder="上映日期" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="tags">标签</label>
+                    <input class="js-tags-input form-control" type="text" id="tags" name="tags" th:value="${movie.style1} + ',' + ${movie.style2} + ',' + ${movie.style3}" value="" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">地区</label>
+                    <input type="text" class="form-control" id="country" name="country" value="" th:value="${movie.country}" placeholder="地区" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">评分</label>
+                    <input type="text" class="form-control" id="rate" name="rate" value="" th:value="${movie.rate}" placeholder="评分" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">dataID</label>
+                    <input type="text" class="form-control" id="dataID" name="dataID" value="" th:value="${movie.dataID}" placeholder="dataID" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">语言</label>
+                    <input type="text" class="form-control" id="language" name="language" value="" th:value="${movie.language}" placeholder="语言" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">时长</label>
+                    <input type="text" class="form-control" id="duration" name="duration" value="" th:value="${movie.duration}" placeholder="时长" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">url</label>
+                    <input type="text" class="form-control" id="url" name="url" value="" th:value="${movie.url}" placeholder="url" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_keywords">pic</label>
+                    <input type="text" class="form-control" id="pic_url" name="pic_url" value="" th:value="${movie.pic_url}" placeholder="pic_url" />
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="seo_description">介绍</label>
+                    <textarea class="form-control" id="introduction" name="introduction" rows="5" value=""  placeholder="介绍"></textarea>
+                  </div>
+
+                  <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-primary ajax-post" href="javascript:add('你修改添加电影信息吗?','myform');">确 定</button>
+                    <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
+                  </div>
+                </form>
+       
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="js/perfect-scrollbar.min.js" th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<!--标签插件-->
+<script src="js/jquery-tags-input/jquery.tagsinput.min.js" th:src="@{/js/jquery-tags-input/jquery.tagsinput.min.js}"></script>
+<script type="text/javascript" src="js/main.min.js" th:src="@{/js/main.min.js}"></script>
+<script th:inline="javascript">
+  document.getElementById("introduction").value = [[${movie.introduction}]]
+  function add(mess,formid){
+    if(confirm(mess)){
+      var form = document.getElementById(formid);
+      form.submit();
+    }
+  }
+</script>
+</body>
+</html>

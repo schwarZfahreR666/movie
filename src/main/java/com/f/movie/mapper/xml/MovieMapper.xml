@@ -15,4 +15,23 @@
         SELECT movie_id,name,english_name,directors,writer,actors,date,style1,style2,style3,country,dataID,language,duration,introduction,rate,pic_url,url
         from movie_table limit #{start},#{count};
     </select>
+
+    <select id="getMovieNum"  resultType="int" >
+        SELECT count(*) from movie_table;
+    </select>
+
+    <delete id="delMovie" parameterType="string">
+        delete FROM movie_table where movie_id=#{id};
+    </delete>
+
+    <insert id="insertMovie" parameterType="com.f.movie.entity.Movie">
+        insert into movie_table (movie_id,name,english_name,directors,writer,actors,date,style1,style2,style3,country,dataID,language,duration,introduction,rate,pic_url,url)
+        select #{id},#{name},#{english_name},#{directors},#{writer},#{actors},#{date},#{style1},#{style2},#{style3},#{country},#{dataID},#{language},#{duration},#{introduction},#{rate},#{pic_url},#{url} from DUAL
+        where not exists (select movie_id from movie_table where movie_id = #{id});
+    </insert>
+
+    <update id="updateMovie" parameterType="com.f.movie.entity.Movie">
+        update movie_table set movie_id=#{id},name=#{name},english_name=#{english_name},directors=#{directors},writer=#{writer},actors=#{actors},date=#{date},style1=#{style1},style2=#{style2},style3=#{style3},country=#{country},dataID=#{dataID},language=#{language},duration=#{duration},introduction=#{introduction},rate=#{rate},pic_url=#{pic_url},url=#{url}
+        where movie_id=#{id};
+    </update>
 </mapper>

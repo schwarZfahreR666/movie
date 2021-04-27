@@ -32,4 +32,14 @@ public class MovieService {
     public List<IdMap> getMapByMovie(String id){
         return mapMapper.getByMovie(id);
     }
+
+    public int getMovieNum(){ return movieMapper.getMovieNum(); }
+
+    public int delMovie(String id){ return movieMapper.delMovie(id); }
+
+    public int insertMovie(Movie movie){ return movieMapper.insertMovie(movie); }
+
+    public int updateMovie(Movie movie){
+        return movieMapper.updateMovie(movie);
+    }
 }
