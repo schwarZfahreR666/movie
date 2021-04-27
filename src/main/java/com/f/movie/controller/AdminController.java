@@ -18,6 +18,11 @@ public class AdminController {
     @Autowired
     MovieService movieService;
 
+    @GetMapping("/movielist")
+    public String movieList(){
+        return "redirect:/admin/movielist/1";
+    }
+
     @RequestMapping("/movielist/{page}")
     public String adminMovie(Model model, @PathVariable int page){
         //电影总数
