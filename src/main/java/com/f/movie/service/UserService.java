@@ -4,24 +4,26 @@ import cn.tdchain.Trans;
 import cn.tdchain.TransHead;
 import cn.tdchain.jbcc.Connection;
 import cn.tdchain.jbcc.Result;
+import cn.tdchain.jbcc.bql.BQL;
+import cn.tdchain.jbcc.bql.BQLResult;
+import cn.tdchain.jbcc.bql.Condition;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.f.movie.entity.IdMap;
 import com.f.movie.entity.MovieTop;
 import com.f.movie.entity.User;
+import com.f.movie.jbcc.util.Tools;
 import com.f.movie.mapper.MapMapper;
 import com.f.movie.mapper.MovieTopMapper;
 import com.f.movie.mapper.UserMapper;
+import org.javatuples.Pair;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -49,13 +51,14 @@ public class UserService {
     @CachePut(cacheNames="user",key="#user.id")
     public User addUser(User user){
         //# 构建出一笔交易信息
-        Trans trans = trans(user.getId(),user.getUsername(),user.getPassword(),user.getNickname(),user.getEmail(),user.getPhone(),user.getHobbies());
+        Trans trans = trans(user.getId(),user.getUsername(),user.getPassword(),user.getNickname(),user.getEmail(),user.getPhone(),user.getHobbies(), user.getState());
         //# 发起一笔交易到云区块链服务中
         Result<TransHead> result = baseService.getConnection().addTrans(trans);
 
         if (result.isSuccess()) {
             //# 根据返回结果状态判断是否成功
             baseService.getLog().info("\n===> add trans success.");
+            //Tools.printResult(result);
             return user;
         } else {
             baseService.getLog().info("\n===> add trans fail.");
@@ -67,7 +70,7 @@ public class UserService {
     }
 
 
-    public Trans trans(String id,String username,String password, String nickname, String email, String phone, String hobbies) {
+    public Trans trans(String id,String username,String password, String nickname, String email, String phone, String hobbies, String state) {
         Trans trans = new Trans();
         trans.setKey(id);//# key是当前交易的维度
         Map<String, Object> data = new HashMap<>();
@@ -77,9 +80,12 @@ public class UserService {
         data.put("email", email);
         data.put("phone", phone);
         data.put("hobbies", hobbies);
+        data.put("state", state);
         trans.setData(JSON.toJSONString(data));
-        trans.setType("Test");
+        //trans.setType("Test");
         trans.setTimestamp(new Date().getTime());
+
+        trans.setType("user");
 
         return trans;
     }
@@ -111,6 +117,7 @@ public class UserService {
             String email = jsonObject.get("email").toString();
             String phone = jsonObject.get("phone").toString();
             String hobbies = jsonObject.get("hobbies").toString();
+            String state = jsonObject.get("state").toString();
 
             user.setId(id);
             user.setPassword(password);
@@ -119,9 +126,11 @@ public class UserService {
             user.setEmail(email);
             user.setPhone(phone);
             user.setHobbies(hobbies);
+            user.setState(state);
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return user;
     }
@@ -185,5 +194,132 @@ public class UserService {
 
     public User getUser(String username){
         return userMapper.getUser(username);
+    }
+
+    /*
+     * 删除用户
+     * 输入：用户id
+     * 成功返回
+     * */
+
+    @Cacheable(cacheNames = "user",key="#key")
+    public User delUser(String key){
+        User user = new User();
+        System.out.println("delete user id: " + key);
+        try {
+            user = queryUser(key);
+            if(user.getState().equals("正常")) {
+                user.setState("已注销");
+                user = addUser(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    /*
+     * 查询指定的用户
+     * 输入：起始位置和数量
+     * 成功返回<用户总数,用户列表>
+     * */
+    public Pair<Integer, List<User>> getUsers(int start, int count){
+        Integer num = 0;
+        List<User> users = new ArrayList<>();
+        System.out.println("get users info");
+        try {
+
+            Condition c = new Condition("state", BQL.Relationship.equal, "正常");
+            BQL bql = new BQL();
+            int page = (start-1)/30+1;
+            bql.setPage(page);
+            bql.setCondition(c);
+            Result<BQLResult> result = baseService.getConnection().getNewTransByBQL(bql);
+
+            if(!result.isSuccess()){
+                return Pair.with(0, users);
+            }
+
+            BQLResult bqlResult = result.getEntity();
+            num = bqlResult.getSize();
+            for(int i=0; i< count && start/30+i< bqlResult.getSize(); i++){
+                Trans trans = bqlResult.getList().get(start/30+i);
+                String data = trans.getData();
+                String id = trans.getKey();
+                JSONObject jsonObject =  JSONObject.parseObject(data);
+                String username = jsonObject.get("username").toString();
+                String password = jsonObject.get("password").toString();
+                String nickname = jsonObject.get("nickname").toString();
+                String email = jsonObject.get("email").toString();
+                String phone = jsonObject.get("phone").toString();
+                String hobbies = jsonObject.get("hobbies").toString();
+                String state = jsonObject.get("state").toString();
+
+                User user = new User();
+                user.setId(id);
+                user.setPassword(password);
+                user.setUsername(username);
+                user.setNickname(nickname);
+                user.setEmail(email);
+                user.setPhone(phone);
+                user.setHobbies(hobbies);
+                user.setState(state);
+
+                users.add(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Pair.with(num, users);
+    }
+
+    /**
+     * 通过sql语句查询符合键值对的用户
+     * @param searchKey
+     * @param searchContent
+     * @return
+     */
+    public User getUser(String searchKey, String searchContent){
+        System.out.println("get user info by "+ searchKey);
+        User user = new User();
+        try {
+            Condition c = new Condition(searchKey, BQL.Relationship.equal, searchContent);
+            BQL bql = new BQL();
+            bql.setPage(1);
+            bql.setCondition(c);
+            Result<BQLResult> result = baseService.getConnection().getNewTransByBQL(bql);
+
+            if(!result.isSuccess()){
+                return null;
+            }
+
+            BQLResult bqlResult = result.getEntity();
+            Trans trans = bqlResult.getList().get(0);
+            String data = trans.getData();
+            String id = trans.getKey();
+            JSONObject jsonObject =  JSONObject.parseObject(data);
+            String username = jsonObject.get("username").toString();
+            String password = jsonObject.get("password").toString();
+            String nickname = jsonObject.get("nickname").toString();
+            String email = jsonObject.get("email").toString();
+            String phone = jsonObject.get("phone").toString();
+            String hobbies = jsonObject.get("hobbies").toString();
+            String state = jsonObject.get("state").toString();
+
+            user.setId(id);
+            user.setPassword(password);
+            user.setUsername(username);
+            user.setNickname(nickname);
+            user.setEmail(email);
+            user.setPhone(phone);
+            user.setHobbies(hobbies);
+            user.setState(state);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return user;
     }
 }

@@ -24,6 +24,7 @@
         
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
+            <li class="nav-item"> <a href="users.html" th:href="@{/admin/userlist/1}"><i class="mdi mdi-format-align-justify"></i> 用户列表</a> </li>
             <li class="nav-item"> <a href="movies.html" th:href="@{/admin/movielist/1}"><i class="mdi mdi-format-align-justify"></i> 电影列表</a> </li>
           </ul>
         </nav>
@@ -72,8 +73,8 @@
                       标题 <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu">
-                        <li> <a tabindex="-1" href="javascript:void(0)" >" data-field="title">标题</a> </li>
-                        <li> <a tabindex="-1" href="javascript:void(0)" >" data-field="cat_name">栏目</a> </li>
+                        <li> <a tabindex="-1" href="javascript:void(0)" data-field="title">标题</a> </li>
+                        <li> <a tabindex="-1" href="javascript:void(0)" data-field="cat_name">栏目</a> </li>
                       </ul>
                     </div>
                     <input type="text" class="form-control" value="" name="keyword" placeholder="请输入名称">
@@ -81,7 +82,7 @@
                 </form>
                 <div class="toolbar-btn-action">
                   <a class="btn btn-primary m-r-5" href="add_movie.html" th:href="@{/admin/addmovie}"><i class="mdi mdi-plus"></i> 新增</a>
-                  <a class="btn btn-danger" href="javascript:delmore('你确定删除这些用户吗?','myform');" ><i class="mdi mdi-window-close"></i> 删除</a>
+                  <a class="btn btn-danger" href="javascript:delmore('你确定删除这些电影吗?','myform');" ><i class="mdi mdi-window-close"></i> 删除</a>
                 </div>
               </div>
               <form action="/admin/delmovies" th:action="@{'/admin/delmovies?page=' + ${pageNow}}" id="myform" method="post">

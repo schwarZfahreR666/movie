@@ -23,7 +23,7 @@ public class JbccController {
 
     @GetMapping("/addUser")
     public State addUser(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nickname, @RequestParam String email, @RequestParam String phone, @RequestParam String hobbies){
-        User user = new User(id,username,password,nickname,email,phone,hobbies);
+        User user = new User(id,username,password,nickname,email,phone,hobbies,"正常");
         User result = userService.addUser(user);
         User result2 = userService.insertUser(user);
         if(result==null){

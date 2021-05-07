@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     public int insertUser(User user);
     public User getUser(String username);
+    public int delUser(String id);
+
 }

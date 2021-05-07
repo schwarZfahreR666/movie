@@ -13,8 +13,9 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String hobbies;
+    private String state;  //作为是否已经删除的标记， 已注销、正常
 
-    public User(String id, String username, String password, String nickname, String email, String phone, String hobbies) {
+    public User(String id, String username, String password, String nickname, String email, String phone, String hobbies, String state) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -22,6 +23,7 @@ public class User implements Serializable {
         this.email = email;
         this.phone = phone;
         this.hobbies = hobbies;
+        this.state = state;
     }
 
     public User() {

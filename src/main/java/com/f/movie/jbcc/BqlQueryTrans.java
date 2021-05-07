@@ -21,6 +21,7 @@ public class BqlQueryTrans extends BaseDemo {
     	
     	//第二个条件：年龄大于18岁 的
     	Condition c2 = new Condition("age", BQL.Relationship.greater, 18);
+
     	
     	//条件c1和c2是并且关系，一次查询可同时支持10个条件对象Condition
     	c1.setAnd(c2);//相当于: name=="xiaoming" && age > 18

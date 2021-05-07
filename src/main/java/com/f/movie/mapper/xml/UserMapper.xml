@@ -17,4 +17,8 @@
         select #{id},#{username} from DUAL
         where not exists (select user_id from user_table where user_id = #{id});
     </insert>
+
+    <delete id="delUser" parameterType="string">
+        delete FROM user_table where user_id=#{id};
+    </delete>
 </mapper>
