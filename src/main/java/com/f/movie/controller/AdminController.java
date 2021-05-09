@@ -214,7 +214,16 @@ public class AdminController {
     @PostMapping("/adduser")
     public String addUser(HttpServletRequest req, @RequestParam int page, Model model) {
 
-        //检查用户是否重复
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String nickname = req.getParameter("nickname");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String hobbies = req.getParameter("hobbies");
+        if(username.length()==0||password.length()==0||nickname.length()==0||email.length()==0||phone.length()==0||hobbies.length()==0){
+            model.addAttribute("error", "输入信息不能为空");
+            return "add_user.html";
+        }
         User user = userService.getUser("username", req.getParameter("username"));
         if(user != null){
             model.addAttribute("error", "该用户名已存在，请更改用户名");
@@ -225,11 +234,11 @@ public class AdminController {
             model.addAttribute("error", "该昵称已存在，请更改昵称");
             return "add_user.html";
         }
-        if(isMail(req.getParameter("email"))){
+        if(!isMail(req.getParameter("email"))){
             model.addAttribute("error", "邮箱格式错误，请更改邮箱");
             return "add_user.html";
         }
-        if(isPhone(req.getParameter("phone"))){
+        if(!isPhone(req.getParameter("phone"))){
             model.addAttribute("error", "手机号格式错误，请更手机号");
             return "add_user.html";
         }

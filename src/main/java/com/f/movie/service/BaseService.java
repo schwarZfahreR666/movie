@@ -6,6 +6,7 @@ import com.f.movie.Base;
 import com.f.movie.jbcc.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.ls.LSOutput;
@@ -23,6 +24,13 @@ public class BaseService {
             "open-tdcb-node3.tdchain.cn",
             "open-tdcb-node4.tdchain.cn"};
     protected final String keystorePath = "src/main/resources/0x043086bb88a993387dcdebea6da18e98.pfx";
+
+//    ApplicationHome h = new ApplicationHome(getClass());
+//    File jarF = h.getSource();
+//    String jarPath = jarF.getParentFile().toString();
+//    protected final String keystorePath = jarPath + "/0x043086bb88a993387dcdebea6da18e98.pfx";
+
+
 
 
 
@@ -49,6 +57,7 @@ public class BaseService {
 
     public BaseService() {
 //        String keystorePath = Base.class.getClassLoader().getResource("0x043086bb88a993387dcdebea6da18e98.pfx").getFile().toString();
+
 
         System.out.println(keystorePath);
         try {

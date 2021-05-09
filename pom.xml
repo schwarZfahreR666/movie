@@ -146,9 +146,13 @@
                 <directory>src/main</directory><!--所在的目录-->
                 <includes><!--包括目录下的.properties,.xml文件都会扫描到-->
 <!--                    <include>**/*.properties</include>-->
-                    <include>**/*.pfx</include>
-                    <include>**/*.yaml</include>
-                    <include>**/*.xml</include>
+                    <include>**/**</include>
+<!--                    <include>**/*.pfx</include>-->
+<!--                    <include>**/*.yaml</include>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                    <include>**/*.html</include>-->
+<!--                    <include>**/*.css</include>-->
+<!--                    <include>**/*.js</include>-->
                 </includes>
                 <filtering>false</filtering>
             </resource>

@@ -129,7 +129,7 @@ public class UserService {
             user.setState(state);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return null;
         }
         return user;
@@ -202,7 +202,7 @@ public class UserService {
      * 成功返回
      * */
 
-    @Cacheable(cacheNames = "user",key="#key")
+//    @Cacheable(cacheNames = "user",key="#key")
     public User delUser(String key){
         User user = new User();
         System.out.println("delete user id: " + key);
@@ -317,7 +317,7 @@ public class UserService {
             user.setHobbies(hobbies);
             user.setState(state);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return null;
         }
         return user;
