@@ -243,7 +243,7 @@ public class AdminController {
             return "add_user.html";
         }
 
-        String uuid = UUID.randomUUID().toString().replaceAll("-","");
+        String uuid = UUID.randomUUID().toString();
         user = new User(uuid,
                 req.getParameter("username"),
                 req.getParameter("password"),
