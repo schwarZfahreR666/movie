@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MovieTopMapper {
     public MovieTop getById(String id);
     public int insertMovieTop(MovieTop movieTop);
+    public int delMovieTop(String id);
 }

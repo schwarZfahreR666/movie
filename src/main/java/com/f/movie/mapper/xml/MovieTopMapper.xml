@@ -25,4 +25,8 @@
         top9 = values(top9),
         top10 = values(top10);
     </insert>
+
+    <delete id="delMovieTop" parameterType="string">
+        delete FROM movie_top_table where user_id=#{id};
+    </delete>
 </mapper>

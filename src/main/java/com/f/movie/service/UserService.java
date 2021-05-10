@@ -211,10 +211,13 @@ public class UserService {
             if(user.getState().equals("正常")) {
                 user.setState("已注销");
                 user = addUser(user);
+                userMapper.delUser(key);
+                movieTopMapper.delMovieTop(key);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return user;
     }
