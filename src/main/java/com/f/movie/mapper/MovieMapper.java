@@ -21,5 +21,7 @@ public interface MovieMapper {
     public int insertMovie(Movie movie);
     //更新电影
     public int updateMovie(Movie movie);
+    //搜索电影
+    public List<Movie> searchMovies(String name);
 
 }

@@ -11,6 +11,11 @@
         <result property="id" column="movie_id"/>
     </resultMap>
 
+    <select id="searchMovies" parameterType="string" resultType="com.f.movie.entity.Movie" resultMap="MovieMap">
+        SELECT movie_id,name,english_name,directors,writer,actors,date,style1,style2,style3,country,dataID,language,duration,introduction,rate,pic_url,url
+        from movie_table where name like #{name};
+    </select>
+
     <select id="getMovies" parameterType="int" resultType="com.f.movie.entity.Movie" resultMap="MovieMap">
         SELECT movie_id,name,english_name,directors,writer,actors,date,style1,style2,style3,country,dataID,language,duration,introduction,rate,pic_url,url
         from movie_table limit #{start},#{count};

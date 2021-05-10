@@ -29,6 +29,10 @@ public class MovieService {
     public List<Movie> getMovies(int start,int count){
         return movieMapper.getMovies(start,count);
     }
+
+    public List<Movie> searchMovies(String name){
+        return movieMapper.searchMovies(name);
+    }
     public List<IdMap> getMapByMovie(String id){
         return mapMapper.getByMovie(id);
     }

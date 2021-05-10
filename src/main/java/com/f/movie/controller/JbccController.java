@@ -69,4 +69,20 @@ public class JbccController {
         }
 
     }
+
+    @GetMapping("/deluser")
+    public State delUser(@RequestParam String userId){
+        User user = userService.queryUser(userId);
+        if(user.getState().equals("正常")) {
+            user.setState("已注销");
+            user = userService.addUser(user);
+            }
+
+        if(user==null){
+            return new State(400,"用户删除失败");
+        }else{
+            return new State(200,"用户删除成功");
+        }
+
+    }
 }

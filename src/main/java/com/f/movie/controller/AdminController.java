@@ -144,6 +144,26 @@ public class AdminController {
         return "redirect:/admin/movielist/" + page;
     }
 
+    @PostMapping("/searchmovies")
+    public String searchMovies(Model model, HttpServletRequest req) {
+
+
+
+        String name = (String) req.getParameter("keyword");
+        List<Movie> movies = movieService.searchMovies(name);
+
+        model.addAttribute("movieList",movies);
+
+        model.addAttribute("movieNums",movies.size());
+        model.addAttribute("pages",1);
+        model.addAttribute("pageNow",1);
+        model.addAttribute("nextPage",1);
+        model.addAttribute("prePage",1);
+
+        return "movies.html";
+
+    }
+
     @GetMapping("/userlist")
     public String userList(){
         return "redirect:/admin/userlist/1";
