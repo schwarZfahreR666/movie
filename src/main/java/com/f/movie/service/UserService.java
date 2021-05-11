@@ -246,8 +246,8 @@ public class UserService {
 
             BQLResult bqlResult = result.getEntity();
             num = bqlResult.getSize();
-            for(int i=0; i< count && start/30+i< bqlResult.getSize(); i++){
-                Trans trans = bqlResult.getList().get(start/30+i);
+            for(int i=0; i< count && start%30+i< bqlResult.getSize(); i++){
+                Trans trans = bqlResult.getList().get(start%30+i);
                 String data = trans.getData();
                 String id = trans.getKey();
                 JSONObject jsonObject =  JSONObject.parseObject(data);
