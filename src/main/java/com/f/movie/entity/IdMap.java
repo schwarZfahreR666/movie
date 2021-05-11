@@ -20,4 +20,19 @@ public class IdMap {
     public IdMap(String commentId) {
         this.commentId = commentId;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        if(!(obj instanceof IdMap)){
+            return false;
+        }
+        IdMap idMap = (IdMap)obj;
+        return getCommentId().equals(idMap.getCommentId())&&
+                getMovieId().equals(idMap.getMovieId())&&
+                getUserId().equals(idMap.getUserId());
+    }
+
 }
