@@ -29,11 +29,7 @@ public class CommentService {
     BaseService baseService;
     @Autowired
     MapMapper mapMapper;
-    private Connection connection;
-    private Logger log;
 
-    public CommentService() {
-    }
 
     /*
      * 插入电影评论
@@ -59,7 +55,7 @@ public class CommentService {
     }
 
 
-    public Trans trans(String commentId,String movieId,String userId,String content,String time) {
+    private Trans trans(String commentId,String movieId,String userId,String content,String time) {
         Trans trans = new Trans();
         trans.setKey(commentId);//# key是当前交易的维度
         Map<String, Object> data = new HashMap<>();

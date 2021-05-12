@@ -2,9 +2,12 @@ package com.f.movie.service;
 
 
 import com.f.movie.entity.Comment;
+import com.f.movie.entity.IdMap;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,6 +27,8 @@ public class CommentServiceTest {
         Comment comment = new Comment(commentId,movieId,userId,time,content);
 
         assertEquals(commentService.addComment(comment).getCommentId(),commentId);
+
+
     }
 
     @Test
@@ -33,5 +38,16 @@ public class CommentServiceTest {
 
         commentId = "comment1111222";
         assertNull(commentService.queryComment(commentId).getCommentId());
+    }
+
+    @Test
+    void getMapByComment(){
+        String commentId = "3999d156-a7fc-11eb-9336-39184f9e874f";
+        List<IdMap> maps = commentService.getMapByComment(commentId);
+        for(IdMap map : maps){
+            System.out.println(map.toString());
+        }
+        assertTrue(commentService.getMapByComment("dfdafdsf").isEmpty());
+
     }
 }

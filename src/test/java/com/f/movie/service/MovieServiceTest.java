@@ -78,4 +78,19 @@ public class MovieServiceTest {
         assertEquals(movieService.getMovieNum(),4402);
     }
 
+    @Test
+    void insertMovie(){
+        String movieId = "1000";
+        Movie movie = movieService.getMovieById(movieId);
+
+        assertEquals(movieService.delMovie(movieId),1);
+
+        assertEquals(movieService.insertMovie(movie),1);
+
+        movie.setDataID("");
+
+        assertEquals(movieService.updateMovie(movie),1);
+
+    }
+
 }
