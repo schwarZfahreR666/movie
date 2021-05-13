@@ -13,35 +13,35 @@
 <link rel="stylesheet" href="js/jquery-tags-input/jquery.tagsinput.min.css" th:href="@{/js/jquery-tags-input/jquery.tagsinput.min.css}" />
 <link rel="stylesheet" href="css/style.min.css" th:href="@{/css/style.min.css}">
 </head>
-  
+
 <body>
 <div class="lyear-layout-web">
   <div class="lyear-layout-container">
     <!--左侧导航-->
     <aside class="lyear-layout-sidebar">
-       
+
       <!-- logo -->
       <div id="logo" class="sidebar-header">
         <img src="images/logo-sidebar.png" th:src="@{/images/logo-sidebar.png}" title="LightYear" alt="LightYear" /></a>
       </div>
       <div class="lyear-layout-sidebar-scroll">
-        
+
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
-            <li class="nav-item"> <a href="movies.html" th:href="@{/admin/movielist/1}"><i class="mdi mdi-format-align-justify"></i> 电影列表</a> </li>
+            <li class="nav-item"> <a href="movies.html" th:href="@{'/admin/movielist/1' + '/' + ${token}}"><i class="mdi mdi-format-align-justify"></i> 电影列表</a> </li>
           </ul>
         </nav>
       </div>
-      
+
     </aside>
     <!--End 左侧导航-->
-    
+
     <!--头部信息-->
     <header class="lyear-layout-header">
-      
+
       <nav class="navbar navbar-default">
         <div class="topbar">
-          
+
           <div class="topbar-left">
             <div class="lyear-aside-toggler">
               <span class="lyear-toggler-bar"></span>
@@ -51,24 +51,24 @@
             <span class="navbar-page-title"> 修改电影 </span>
           </div>
 
-          
+
         </div>
       </nav>
-      
+
     </header>
     <!--End 头部信息-->
-    
+
     <!--页面主要内容-->
     <main class="lyear-layout-content">
-      
+
       <div class="container-fluid">
-        
+
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
               <div class="card-body">
-                
-                <form action="#!"  th:action="@{'/admin/updatemovie?page=1'}" method="post" class="row" id="myform">
+
+                <form action="#!"  th:action="@{'/admin/updatemovie' + '/' + ${token} + '?page=1'}" method="post" class="row" id="myform">
                   <div class="form-group col-md-12">
                     <label for="type">电影id</label>
                     <input type="text" class="form-control" id="movieId" name="movieId" value="" th:value="${movie.id}" placeholder="请输入电影id" />
@@ -139,15 +139,15 @@
                     <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
                   </div>
                 </form>
-       
+
               </div>
             </div>
           </div>
-          
+
         </div>
-        
+
       </div>
-      
+
     </main>
     <!--End 页面主要内容-->
   </div>

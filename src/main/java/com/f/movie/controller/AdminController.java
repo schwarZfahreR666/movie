@@ -7,12 +7,16 @@ import com.f.movie.service.MovieService;
 import com.f.movie.service.UserService;
 import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -31,13 +35,25 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/movielist")
-    public String movieList(){
-        return "redirect:/admin/movielist/1";
+
+
+
+    public String baseToken = UUID.randomUUID().toString();
+
+
+    @GetMapping("/movielist/{token}")
+    public String movieList(@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
+        return "redirect:/admin/movielist/1/" + token;
     }
 
-    @RequestMapping("/movielist/{page}")
-    public String adminMovie(Model model, @PathVariable int page){
+    @RequestMapping("/movielist/{page}/{token}")
+    public String adminMovie(Model model, @PathVariable int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         //电影总数
         int movieNums = movieService.getMovieNum();
         //每页电影数
@@ -58,17 +74,38 @@ public class AdminController {
         model.addAttribute("pageNow",pageNow);
         model.addAttribute("nextPage",nextPage);
         model.addAttribute("prePage",prePage);
+        model.addAttribute("token",token);
         return "movies.html";
     }
-    @RequestMapping("/addmovie")
-    public String addMovie(Model model){
+    @RequestMapping("/addmovie/{token}")
+    public String addMovie(Model model,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
+        model.addAttribute("token",token);
         return "add_movie.html";
     }
 
-    @PostMapping("/addmovie")
-    public String addMovie1(HttpServletRequest req,@RequestParam int page){
+    @PostMapping("/addmovie/{token}")
+    public String addMovie1(HttpServletRequest req,@RequestParam int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         String tags = req.getParameter("tags");
-        String[] styles = tags.split(",");
+
+        String[] tagList = tags.split(",");
+
+        String[] styles = new String[3];
+
+        for (int i = 0; i < 3; i++) {
+            if(tagList.length<=i){
+                styles[i] = "";
+                break;
+            }
+            styles[i] = tagList[i];
+
+        }
+
 
         Movie movie = new Movie(req.getParameter("movieId"),
                 req.getParameter("name"),
@@ -90,19 +127,26 @@ public class AdminController {
                 req.getParameter("pic_url"));
         movieService.insertMovie(movie);
 
-        return "redirect:/admin/movielist/" + page;
+        return "redirect:/admin/movielist/" + page + "/" + token;
     }
 
-    @GetMapping("/updatemovie")
-    public String updateMovie(@RequestParam String id,@RequestParam int page,Model model){
+    @GetMapping("/updatemovie/{token}")
+    public String updateMovie(@RequestParam String id,@RequestParam int page,Model model,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         Movie movie = movieService.getMovieById(id);
         model.addAttribute("movie",movie);
         model.addAttribute("page",page);
+        model.addAttribute("token",token);
         return "update_movie.html";
     }
 
-    @PostMapping("/updatemovie")
-    public String updateMovie1(HttpServletRequest req,@RequestParam int page){
+    @PostMapping("/updatemovie/{token}")
+    public String updateMovie1(HttpServletRequest req,@RequestParam int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         String tags = req.getParameter("tags");
         String[] styles = tags.split(",");
 
@@ -126,29 +170,35 @@ public class AdminController {
                 req.getParameter("pic_url"));
         movieService.updateMovie(movie);
 
-        return "redirect:/admin/movielist/" + page;
+        return "redirect:/admin/movielist/" + page + "/" + token;
     }
 
-    @RequestMapping("/delmovie")
-    public String delMovie(@RequestParam String id,@RequestParam int page){
+    @RequestMapping("/delmovie/{token}")
+    public String delMovie(@RequestParam String id,@RequestParam int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         movieService.delMovie(id);
-        return "redirect:/admin/movielist/" + page;
+        return "redirect:/admin/movielist/" + page + "/" + token;
     }
 
     @PostMapping("/delmovies")
-    public String delMovies(HttpServletRequest req,@RequestParam int page){
+    public String delMovies(HttpServletRequest req,@RequestParam int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         String[] ids = req.getParameterValues("ids[]");
         for (String id : ids) {
             movieService.delMovie(id);
         }
-        return "redirect:/admin/movielist/" + page;
+        return "redirect:/admin/movielist/" + page + "/" + token;
     }
 
-    @PostMapping("/searchmovies")
-    public String searchMovies(Model model, HttpServletRequest req) {
-
-
-
+    @PostMapping("/searchmovies/{token}")
+    public String searchMovies(Model model, HttpServletRequest req,@PathVariable String token) {
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         String name = (String) req.getParameter("keyword");
         List<Movie> movies = movieService.searchMovies(name);
 
@@ -159,18 +209,25 @@ public class AdminController {
         model.addAttribute("pageNow",1);
         model.addAttribute("nextPage",1);
         model.addAttribute("prePage",1);
+        model.addAttribute("token",token);
 
         return "movies.html";
 
     }
 
-    @GetMapping("/userlist")
-    public String userList(){
-        return "redirect:/admin/userlist/1";
+    @GetMapping("/userlist/{token}")
+    public String userList(@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
+        return "redirect:/admin/userlist/1/" + token;
     }
 
-    @RequestMapping("/userlist/{page}")
-    public String adminUser(Model model, @PathVariable int page){
+    @RequestMapping("/userlist/{page}/{token}")
+    public String adminUser(Model model, @PathVariable int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         //System.out.println("start users");
         //每页用户数
         int perPage = 10;
@@ -195,12 +252,16 @@ public class AdminController {
         model.addAttribute("pageNow",pageNow);
         model.addAttribute("nextPage",nextPage);
         model.addAttribute("prePage",prePage);
+        model.addAttribute("token",token);
         System.out.println("to userlist html");
         return "users.html";
     }
 
-    @PostMapping("/user")
-    public String searchUser(Model model, HttpServletRequest req) {
+    @PostMapping("/user/{token}")
+    public String searchUser(Model model, HttpServletRequest req,@PathVariable String token) {
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         System.out.println("start searching user");
 
         String key = (String) req.getParameter("search_field");
@@ -220,19 +281,27 @@ public class AdminController {
         model.addAttribute("pageNow",1);
         model.addAttribute("nextPage",1);
         model.addAttribute("prePage",1);
+        model.addAttribute("token",token);
         System.out.println("to userlist html");
 
         return "users.html";
 
     }
 
-    @RequestMapping("/adduser")
-    public String addUser(Model model){
+    @RequestMapping("/adduser/{token}")
+    public String addUser(Model model,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
+        model.addAttribute("token",token);
         return "add_user.html";
     }
 
-    @PostMapping("/adduser")
-    public String addUser(HttpServletRequest req, @RequestParam int page, Model model) {
+    @PostMapping("/adduser/{token}")
+    public String addUser(HttpServletRequest req, @RequestParam int page, Model model,@PathVariable String token) {
+        if(!token.equals(baseToken)){
+            return "404";
+        }
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -240,6 +309,7 @@ public class AdminController {
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         String hobbies = req.getParameter("hobbies");
+        model.addAttribute("token",token);
         if(username.length()==0||password.length()==0||nickname.length()==0||email.length()==0||phone.length()==0||hobbies.length()==0){
             model.addAttribute("error", "输入信息不能为空");
             return "add_user.html";
@@ -279,23 +349,29 @@ public class AdminController {
         要加上判断，这地方还要修改
          */
         System.out.println("add user success");
-        return "redirect:/admin/userlist/" + page;
+        return "redirect:/admin/userlist/" + page + "/" + token;
     }
 
-    @RequestMapping("/deluser")
-    public String delUser(@RequestParam String id,@RequestParam int page){
+    @RequestMapping("/deluser/{token}")
+    public String delUser(@RequestParam String id,@RequestParam int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         System.out.println("del user id: " + id);
         userService.delUser(id);
-        return "redirect:/admin/userlist/" + page;
+        return "redirect:/admin/userlist/" + page + "/" + token;
     }
 
-    @PostMapping("/delusers")
-    public String delUsers(HttpServletRequest req,@RequestParam int page){
+    @PostMapping("/delusers/{token}")
+    public String delUsers(HttpServletRequest req,@RequestParam int page,@PathVariable String token){
+        if(!token.equals(baseToken)){
+            return "404";
+        }
         String[] ids = req.getParameterValues("ids[]");
         for (String id : ids) {
             userService.delUser(id);
         }
-        return "redirect:/admin/userlist/" + page;
+        return "redirect:/admin/userlist/" + page + "/" + token;
     }
 
     public boolean isMail(String str) {

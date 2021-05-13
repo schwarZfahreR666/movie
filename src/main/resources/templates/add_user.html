@@ -28,7 +28,7 @@
 
                 <nav class="sidebar-main">
                     <ul class="nav nav-drawer">
-                        <li class="nav-item"> <a href="users.html" th:href="@{/admin/userlist/1}"><i class="mdi mdi-format-align-justify"></i> 用户列表</a> </li>
+                        <li class="nav-item"> <a href="users.html" th:href="@{'/admin/userlist/1' + '/' + ${token}}"><i class="mdi mdi-format-align-justify"></i> 用户列表</a> </li>
                     </ul>
                 </nav>
             </div>
@@ -68,7 +68,7 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <form action="#!"  th:action="@{'/admin/adduser?page=1'}" method="post" class="row" id="myform">
+                                <form action="#!"  th:action="@{'/admin/adduser' + '/' + ${token} + '?page=1'}" method="post" class="row" id="myform">
                                     <div class="form-group col-md-12">
                                         <label for="title">用户名</label>
                                         <input type="text" class="form-control" id="username" name="username" value="" placeholder="请输入用户名" />
