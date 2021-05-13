@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.f.movie.utils.Md5;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -21,15 +24,32 @@ public class JbccController {
     @Autowired
     CommentService commentService;
 
+    final String key = "0a3d45ba-6e25-418f-bcbb-2413a07110ff";
+
     @GetMapping("/addUser")
-    public State addUser(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nickname, @RequestParam String email, @RequestParam String phone, @RequestParam String hobbies){
+    public State addUser(@RequestParam String id, @RequestParam String username, @RequestParam String password, @RequestParam String nickname, @RequestParam String email, @RequestParam String phone, @RequestParam String hobbies,@RequestParam String token){
+
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("id",id);
+        params.put("username",username);
+        params.put("password",password);
+        params.put("nickname",nickname);
+        params.put("email",email);
+        params.put("phone",phone);
+        params.put("hobbies",hobbies);
+        String serverToken = Md5.tokenGenerator(params,key);
+        if(!serverToken.equals(token)){
+            return new State(400,"无访问权限");
+        }
+
+
         User user = new User(id,username,password,nickname,email,phone,hobbies,"正常");
         User result = userService.addUser(user);
         User result2 = userService.insertUser(user);
         if(result==null){
             return new State(400,"信息插入失败");
         }else if(result2==null){
-            return new State(400,"已存在该用户id，更新数据请忽略此错误");
+            return new State(401,"已存在该用户id，更新数据请忽略此错误");
         } else{
             return new State(200,"信息插入成功");
         }
